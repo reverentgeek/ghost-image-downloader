@@ -1,0 +1,5 @@
+{
+	"jsonFile": "./ghost.json",
+	"baseUrl": "http://your-blog.com",
+	"basePath": "/var/www/ghost"
+}
