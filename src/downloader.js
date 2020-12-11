@@ -3,11 +3,16 @@ const axios = require( "axios" );
 
 module.exports.doTheDownloads = async ( { jsonFile, baseUrl, basePath }, logger ) => {
 	const parseImages = post => {
-		let matches;
-		if ( post.html ) {
-			matches = post.html.match( /(?<=src="\/)content[^"]*/gi );
+		const findImages = () => post.html.match( /(?<=src="\/)content[^"]*/gi );
+		let matches = [];
+		if ( post.feature_image ) {
+			matches.push( post.feature_image );
 		}
-		return matches || [];
+		if ( post.html && findImages() ) {
+			matches = [ ...matches, ...findImages() ];
+		}
+
+		return matches;
 	};
 
 	const downloadImage = ( url, localPath ) => {
