@@ -11,7 +11,7 @@
   "author": "David Neal <david@reverentgeek.com> (http://reverentgeek.com)",
   "license": "MIT",
   "dependencies": {
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "configya": "^0.2.2",
     "fs-extra": "^9.0.1",
     "winston": "^3.3.2"
