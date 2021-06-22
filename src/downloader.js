@@ -37,11 +37,11 @@ module.exports.doTheDownloads = async ( { jsonFile, baseUrl, basePath }, logger 
 		image = image.replace( "__GHOST_URL__", "" );
 		const parts = image.split( "/" );
 		const filename = parts.pop();
-		const localPath = `${ basePath }${ parts.join( "/" ) }`;
+		const localPath = `${ basePath }/${ parts.join( "/" ) }`;
 		const filePath = `${ localPath }/${ filename }`;
 		if ( !fs.existsSync( filePath ) ) {
 			fs.ensureDirSync( localPath );
-			const url = await downloadImage( `${ baseUrl }${ image }`, filePath ); // eslint-disable-line no-await-in-loop
+			const url = await downloadImage( `${ baseUrl }/${ image }`, filePath ); // eslint-disable-line no-await-in-loop
 			if ( url ) {
 				badUrls.push( url );
 			}
