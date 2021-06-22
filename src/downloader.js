@@ -33,7 +33,8 @@ module.exports.doTheDownloads = async ( { jsonFile, baseUrl, basePath }, logger 
 		images = [ ...images, ...parseImages( post ) ];
 	} );
 	for ( let i = 0; i < images.length; i++ ) {
-		const image = images[ i ];
+		let image = images[ i ];
+		image = image.replace( "__GHOST_URL__", "" );
 		const parts = image.split( "/" );
 		const filename = parts.pop();
 		const localPath = `${ basePath }/${ parts.join( "/" ) }`;
