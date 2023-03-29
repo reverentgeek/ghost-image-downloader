@@ -22,7 +22,7 @@ module.exports.doTheDownloads = async ( { jsonFile, baseUrl, basePath }, logger 
 				response.data.pipe( fs.createWriteStream( localPath ) );
 				return "";
 			} )
-			.catch( () => { return url; } );
+			.catch( () => url );
 	};
 
 	const backup = await fs.readJson( jsonFile );
@@ -32,6 +32,7 @@ module.exports.doTheDownloads = async ( { jsonFile, baseUrl, basePath }, logger 
 	blog.posts.forEach( post => {
 		images = [ ...images, ...parseImages( post ) ];
 	} );
+	const downloadPromises = [];
 	for ( let i = 0; i < images.length; i++ ) {
 		let image = images[ i ];
 		image = image.replace( "__GHOST_URL__", "" );
@@ -39,12 +40,16 @@ module.exports.doTheDownloads = async ( { jsonFile, baseUrl, basePath }, logger 
 		const filename = parts.pop();
 		const localPath = `${ basePath }/${ parts.join( "/" ) }`;
 		const filePath = `${ localPath }/${ filename }`;
-		if ( !fs.existsSync( filePath ) ) {
+		// Skip images hosted on other servers (ie CDNs or so)
+		if ( !image.startsWith( "http" ) && !fs.existsSync( filePath ) ) {
 			fs.ensureDirSync( localPath );
-			const url = await downloadImage( `${ baseUrl }/${ image }`, filePath ); // eslint-disable-line no-await-in-loop
-			if ( url ) {
-				badUrls.push( url );
-			}
+			downloadPromises.push( downloadImage( `${ baseUrl }/${ image }`, filePath ) );
+		}
+	}
+	const results = await Promise.allSettled( downloadPromises );
+	for ( const result of results ) {
+		if ( result.value ) {
+			badUrls.push( result.value );
 		}
 	}
 	logger.info( "finished downloading" );
