@@ -30,7 +30,6 @@ module.exports.doTheDownloads = async ( { jsonFile, baseUrl, basePath }, logger 
 	let images = [];
 	const badUrls = [];
 	blog.posts.forEach( post => {
-		images = [ ...images  ];
 		images = [ ...images, ...parseImages( post ) ];
 	} );
 	const downloadPromises = [];
