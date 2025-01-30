@@ -3,7 +3,8 @@ const axios = require( "axios" );
 
 module.exports.doTheDownloads = async ( { jsonFile, baseUrl, basePath }, logger ) => {
 	const parseImages = post => {
-		const findImages = () => post.html.match( /(?<=src="\/)content[^"]*/gi );
+		const findImages = () => post.html.match( /(?:<img src=".*\/)content[^"]*/gi )
+
 		let matches = [];
 		if ( post.feature_image ) {
 			matches.push( post.feature_image );
@@ -11,7 +12,6 @@ module.exports.doTheDownloads = async ( { jsonFile, baseUrl, basePath }, logger 
 		if ( post.html && findImages() ) {
 			matches = [ ...matches, ...findImages() ];
 		}
-
 		return matches;
 	};
 
@@ -35,7 +35,9 @@ module.exports.doTheDownloads = async ( { jsonFile, baseUrl, basePath }, logger 
 	const downloadPromises = [];
 	for ( let i = 0; i < images.length; i++ ) {
 		let image = images[ i ];
-		image = image.replace( "__GHOST_URL__", "" );
+		image = image.replace( '<img src=\"', "" );
+		image = image.replace( /\"( class.*)?/, "" );
+		image = image.replace( "__GHOST_URL__/", "" );
 		const parts = image.split( "/" );
 		const filename = parts.pop();
 		const localPath = `${ basePath }/${ parts.join( "/" ) }`;
