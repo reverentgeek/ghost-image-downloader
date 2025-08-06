@@ -27,7 +27,7 @@
     "winston": "^3.3.2"
   },
   "devDependencies": {
-    "eslint": "^5.16.0",
+    "eslint": "^9.32.0",
     "eslint-config-leankit": "^6.0.0"
   }
 }
