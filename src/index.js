@@ -1,3 +1,5 @@
+"use strict";
+
 const configya = require( "configya" );
 const fs = require( "fs-extra" );
 const downloader = require( "./downloader" );

@@ -1,9 +1,11 @@
+"use strict";
+
 const fs = require( "fs-extra" );
 const axios = require( "axios" );
 
 module.exports.doTheDownloads = async ( { jsonFile, baseUrl, basePath }, logger ) => {
 	const parseImages = post => {
-		const findImages = () => post.html.match( /(?:<img src=".*\/)content[^"]*/gi )
+		const findImages = () => post.html.match( /(?:<img src=".*\/)content[^"]*/gi );
 
 		let matches = [];
 		if ( post.feature_image ) {
@@ -35,8 +37,8 @@ module.exports.doTheDownloads = async ( { jsonFile, baseUrl, basePath }, logger 
 	const downloadPromises = [];
 	for ( let i = 0; i < images.length; i++ ) {
 		let image = images[ i ];
-		image = image.replace( '<img src=\"', "" );
-		image = image.replace( /\"( class.*)?/, "" );
+		image = image.replace( "<img src=\"", "" );
+		image = image.replace( /"( class.*)?/, "" );
 		image = image.replace( "__GHOST_URL__/", "" );
 		const parts = image.split( "/" );
 		const filename = parts.pop();
