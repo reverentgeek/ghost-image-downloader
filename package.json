@@ -1,6 +1,6 @@
 {
 	"name": "ghost-image-downloader",
-	"version": "0.1.1",
+	"version": "0.1.2",
 	"description": "",
 	"main": "src/index.js",
 	"engines": {
@@ -22,13 +22,13 @@
 	"license": "MIT",
 	"type": "commonjs",
 	"dependencies": {
-		"axios": "^1.8.2",
+		"axios": "^1.12.2",
 		"configya": "^0.2.3",
-		"eslint-config-reverentgeek": "^5.5.1",
-		"fs-extra": "^11.3.1",
-		"winston": "^3.3.2"
+		"eslint-config-reverentgeek": "^5.5.3",
+		"fs-extra": "^11.3.2",
+		"winston": "^3.17.0"
 	},
 	"devDependencies": {
-		"eslint": "^9.32.0"
+		"eslint": "^9.36.0"
 	}
 }
