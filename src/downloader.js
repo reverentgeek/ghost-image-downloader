@@ -4,7 +4,7 @@ const fs = require( "fs-extra" );
 const axios = require( "axios" );
 
 module.exports.doTheDownloads = async ( { jsonFile, baseUrl, basePath }, logger ) => {
-	const parseImages = post => {
+	const parseImages = ( post ) => {
 		const findImages = () => post.html.match( /(?:<img src=".*\/)content[^"]*/gi );
 
 		let matches = [];
@@ -20,7 +20,7 @@ module.exports.doTheDownloads = async ( { jsonFile, baseUrl, basePath }, logger 
 	const downloadImage = ( url, localPath ) => {
 		logger.info( `downloading ${ url } to ${ localPath } ...` );
 		return axios( { url, responseType: "stream" } )
-			.then( response => {
+			.then( ( response ) => {
 				response.data.pipe( fs.createWriteStream( localPath ) );
 				return "";
 			} )
@@ -28,15 +28,15 @@ module.exports.doTheDownloads = async ( { jsonFile, baseUrl, basePath }, logger 
 	};
 
 	const backup = await fs.readJson( jsonFile );
-	const blog = backup.db[ 0 ].data;
+	const blog = backup.db[0].data;
 	let images = [];
 	const badUrls = [];
-	blog.posts.forEach( post => {
+	blog.posts.forEach( ( post ) => {
 		images = [ ...images, ...parseImages( post ) ];
 	} );
 	const downloadPromises = [];
 	for ( let i = 0; i < images.length; i++ ) {
-		let image = images[ i ];
+		let image = images[i];
 		image = image.replace( "<img src=\"", "" );
 		image = image.replace( /"( class.*)?/, "" );
 		image = image.replace( "__GHOST_URL__/", "" );
