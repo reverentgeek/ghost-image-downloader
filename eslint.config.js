@@ -1,7 +1,7 @@
 "use strict";
 
 const defineConfig = require( "eslint/config" ).defineConfig; // eslint-disable-line n/no-unpublished-require
-const rg = require( "eslint-config-reverentgeek" );
+const rg = require( "eslint-config-reverentgeek" ); // eslint-disable-line n/no-unpublished-require
 
 module.exports = defineConfig( [
 	{
